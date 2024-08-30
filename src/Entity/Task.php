@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
+ * @ORM\Table(name="task")
  */
 class Task
 {
@@ -148,7 +149,7 @@ class Task
     private $rejected;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="assignedTasks")
      * @Groups({"task", "taskList"})
      * ---------------------------------------
      * @Groups({"taskCreate", "taskUpdate"})

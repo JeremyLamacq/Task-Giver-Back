@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=BelongsToRepository::class)
+ * @ORM\Table(name="belongs_to")
  * @UniqueEntity("user", "team", groups={"create", "update"})
  */
 class BelongsTo

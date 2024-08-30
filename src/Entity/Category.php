@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Table(name="category")
  * @UniqueEntity("name", "team", groups={"create", "update", "teamUpdate"})
  */
 class Category
