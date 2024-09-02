@@ -9,22 +9,20 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-install pdo pdo_mysql
 
-# Mettre à jour Composer
+# Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Mettre à jour Composer
 RUN composer self-update
 
 # Copier les fichiers de l'application dans le conteneur
 COPY . /var/www/html
 
+# Créer le répertoire var si nécessaire
+RUN mkdir -p /var/www/html/var
+
 # Modifier les permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html/var
-
-# Réinstaller les dépendances PHP avec Composer
-RUN composer install --optimize-autoloader
-
-# Configuration Apache
-RUN a2enmod rewrite
+RUN chown -R www-data:www-data /var/www/html
 
 # Exposer le port 80
 EXPOSE 80
