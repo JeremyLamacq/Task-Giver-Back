@@ -12,24 +12,23 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Mettre à jour Composer
-RUN composer self-update
-
 # Copier les fichiers de l'application dans le conteneur
 COPY . /var/www/html
+
+# Installer les dépendances PHP avec Composer
+RUN cd /var/www/html && composer install --no-dev --optimize-autoloader
 
 # Créer le répertoire var si nécessaire
 RUN mkdir -p /var/www/html/var
 
-# Modifier la configuration d'Apache pour définir le DocumentRoot
-RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Activer le module Apache 'rewrite'
-RUN a2enmod rewrite
-
 # Modifier les permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 775 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+
+# Configuration Apache
+RUN a2enmod rewrite
 
 # Exposer le port 80
 EXPOSE 80
+
+# Commande pour démarrer le serveur Apache en premier plan
+CMD ["apache2-foreground"]
