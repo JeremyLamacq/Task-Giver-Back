@@ -13,11 +13,20 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Ajouter un utilisateur non-root
+RUN useradd -ms /bin/sh -u 1000 appuser
+
+# Passer à l'utilisateur non-root
+USER appuser
+
+# Vérifier la version de Composer
+RUN composer --version
+
 # Définir le répertoire de travail
 WORKDIR /var/www/html
 
 # Copier les fichiers de l'application dans le conteneur
-COPY . .
+COPY --chown=appuser:appuser . .
 
 # Installer les dépendances PHP
 RUN composer install --optimize-autoloader
