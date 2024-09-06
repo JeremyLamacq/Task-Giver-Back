@@ -1,34 +1,29 @@
-# Utiliser une image PHP avec Apache
-FROM php:7.4-apache
+# Utiliser l'image PHP 8.2 FPM comme base
+FROM php:8.2.13-fpm
 
-# Installer les dépendances et les extensions PHP nécessaires
+# Installer les dépendances système nécessaires
 RUN apt-get update && apt-get install -y \
+    libicu-dev \
     libzip-dev \
-    zip \
+    libpq-dev \
     unzip \
-    curl \
-    && docker-php-ext-install pdo pdo_mysql
+    git \
+    && docker-php-ext-install intl pdo pdo_pgsql zip
 
 # Installer Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Définir le répertoire de travail
+WORKDIR /var/www/html
 
 # Copier les fichiers de l'application dans le conteneur
-COPY . /var/www/html
+COPY . .
 
-# Installer les dépendances PHP avec Composer
-RUN cd /var/www/html && composer install --no-dev --optimize-autoloader
+# Installer les dépendances PHP
+RUN composer install --optimize-autoloader
 
-# Créer le répertoire var si nécessaire
-RUN mkdir -p /var/www/html/var
+# Exposer le port 9000 pour PHP-FPM
+EXPOSE 9000
 
-# Modifier les permissions
-RUN chown -R www-data:www-data /var/www/html
-
-# Configuration Apache
-RUN a2enmod rewrite
-
-# Exposer le port 80
-EXPOSE 80
-
-# Commande pour démarrer le serveur Apache en premier plan
-CMD ["apache2-foreground"]
+# Commande pour démarrer PHP-FPM
+CMD ["php-fpm"]

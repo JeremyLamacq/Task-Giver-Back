@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:9000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DATABASE_URL: "pgsql://u6tnlg7h6t3gd9:p9c92834d66639e51ccf423f9adcac2a57725c27c714096cfc72243677e8d016f@c8lj070d5ubs83.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dd1sef6dqsubid"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: u6tnlg7h6t3gd9
+      POSTGRES_PASSWORD: p9c92834d66639e51ccf423f9adcac2a57725c27c714096cfc72243677e8d016f
+      POSTGRES_DB: dd1sef6dqsubid
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
