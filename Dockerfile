@@ -32,8 +32,7 @@ RUN composer install --optimize-autoloader
 COPY ./docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Préparer les répertoires et les permissions pour la production
-RUN set -eux; \
-    mkdir -p var/cache var/log; \
+RUN mkdir -p var/cache var/log; \
     composer dump-autoload --classmap-authoritative; \
     composer dump-env prod; \
     composer run-script post-install-cmd; \
