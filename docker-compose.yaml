@@ -9,10 +9,12 @@ services:
       - "80:80"
     environment:
       APP_ENV: prod
+      APP_SECRET: ${APP_ENV}
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
       JWT_PASSPHRASE: ${JWT_PASSPHRASE}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
 
 volumes:
   postgres_data:
