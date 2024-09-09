@@ -25,10 +25,6 @@ COPY --chown=appuser:appuser . .
 # Passer à l'utilisateur non-root
 USER appuser
 
-# Définir explicitement les variables d'environnement pour le conteneur
-ENV APP_ENV=dev
-ENV DATABASE_URL="postgres://u6tnlg7h6t3gd9:p9c92834d66639e51ccf423f9adcac2a57725c27c714096cfc72243677e8d016f@c8lj070d5ubs83.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dd1sef6dqsubid"
-
 # Installer les dépendances PHP
 RUN composer install --optimize-autoloader
 
@@ -36,4 +32,4 @@ RUN composer install --optimize-autoloader
 EXPOSE 80
 
 # Commande pour démarrer PHP-FPM
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+CMD ["php-fpm"]
