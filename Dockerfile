@@ -36,4 +36,4 @@ RUN composer install --optimize-autoloader
 EXPOSE 80
 
 # Commande pour démarrer PHP-FPM
-CMD ["php-fpm", "--nodaemonize", "--fpm-config", "/usr/local/etc/php-fpm.conf"]
+CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
