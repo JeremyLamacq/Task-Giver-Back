@@ -33,7 +33,7 @@ ENV DATABASE_URL="postgres://u6tnlg7h6t3gd9:p9c92834d66639e51ccf423f9adcac2a5772
 RUN composer install --optimize-autoloader
 
 # Exposer le port 8080 pour PHP-FPM
-EXPOSE 8080
+EXPOSE 80
 
 # Commande pour démarrer PHP-FPM
 CMD ["php-fpm", "--nodaemonize", "--fpm-config", "/usr/local/etc/php-fpm.conf"]
