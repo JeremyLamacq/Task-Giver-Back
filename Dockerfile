@@ -28,8 +28,19 @@ USER appuser
 # Installer les dépendances PHP
 RUN composer install --optimize-autoloader
 
-# Exposer le port 8080 pour PHP-FPM
+# Ajouter une configuration PHP-FPM pour écouter sur le port 80
+COPY ./docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Préparer les répertoires et les permissions pour la production
+RUN set -eux; \
+    mkdir -p var/cache var/log; \
+    composer dump-autoload --classmap-authoritative; \
+    composer dump-env prod; \
+    composer run-script post-install-cmd; \
+    chmod +x bin/console; sync;
+
+# Exposer le port 80 pour PHP-FPM
 EXPOSE 80
 
 # Commande pour démarrer PHP-FPM
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+CMD ["php-fpm"]
