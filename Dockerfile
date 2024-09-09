@@ -39,8 +39,8 @@ RUN set -eux; \
     composer run-script post-install-cmd; \
     chmod +x bin/console; sync;
 
-# Exposer le port 80 pour PHP-FPM
-EXPOSE 80
+# Exposer le port pour PHP-FPM
+EXPOSE 9000
 
 # Commande pour démarrer PHP-FPM
 CMD ["php-fpm"]
