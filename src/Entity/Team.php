@@ -29,7 +29,7 @@ class Team
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Notblank
+     * @Assert\NotBlank
      * @Groups({"user", "userRestricted"})
      * @Groups({"team", "teamList"})
      * @Groups({"task", "taskList"})
