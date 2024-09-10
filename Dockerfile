@@ -19,7 +19,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Préparer les répertoires et les permissions pour la production
 RUN mkdir -p var/cache var/log \
-    && chown -R www-data:www-data var/cache var/log \
+    && mkdir -p /var/www/.composer \
+    && chown -R www-data:www-data var/cache var/log /var/www/.composer \
     && gosu www-data composer install --no-dev --optimize-autoloader \
     && gosu www-data php bin/console cache:clear --env=prod \
     && gosu www-data php bin/console assets:install --symlink \
