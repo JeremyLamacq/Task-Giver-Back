@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Running composer"
-composer install  --optimize-autoloader
+composer install --no-dev --optimize-autoloader
 
 echo "Clearing cache..."
 php bin/console cache:clear --env=prod
