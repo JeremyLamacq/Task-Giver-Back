@@ -16,7 +16,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Préparer les répertoires et les permissions pour la production
 RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var/cache var/log \
-    && composer install --no-dev --optimize-autoloader \
+    && composer install --optimize-autoloader \
     && php bin/console cache:clear --env=prod \
     && php bin/console assets:install --symlink \
     && php bin/console doctrine:migrations:migrate --no-interaction --env=prod
