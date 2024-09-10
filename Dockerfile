@@ -1,8 +1,8 @@
 # Utiliser PHP 8.1 FPM comme image de base
-FROM php:8.2-fpm
+FROM php:8.1-fpm
 
-# Installer Nginx
-RUN apt-get update && apt-get install -y nginx
+# Installer Nginx et Git
+RUN apt-get update && apt-get install -y nginx git
 
 # Copier les fichiers de l'application dans le conteneur
 COPY . /var/www/html
